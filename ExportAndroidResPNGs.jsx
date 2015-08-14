@@ -1,13 +1,14 @@
-// AUTHOR:      Murdoch Carpenter
-// DATE:        15 July 2014
-// VERSION:     1.0
-// DETAILS:     Exports unlocked layers with first character "$" to Android resolution PNG's (MDPI, HDPI, XHDPI, XXHDPI) ready to paste into your Android Studio project.
+// AUTHOR:      Murdoch Carpenter - Update Justin Berot-Burns
+// DATE:        15 July 2014 - Update 14 August 2015
+// VERSION:     1.0 - 1.1
+// DETAILS:     Exports unlocked layers with first character "$" to Android resolution PNG's (MDPI, HDPI, XHDPI, XXHDPI, XXXHDPI) ready to paste into your Android Studio project.
 // HOW TO:	http://murdochcarpenter.com/illustrator-script-export-android-multi-res-pngs/
 
 var mediumFolderName = "drawable-mdpi";
 var highFolderName = "drawable-hdpi";
 var xHighFolderName = "drawable-xhdpi";
 var xxHighFolderName = "drawable-xxhdpi";
+var xxxHighFolderName = "drawable-xxxhpdi";
 
 // layers with this special character as the first char will be exported
 var exportLayerWithTag = "$";
@@ -17,23 +18,34 @@ var mediumDPI = 100;    // 1x
 var highDPI = 150;      // 1.5x
 var xHighDPI = 200;     // 2x
 var xxHighDPI = 300;    // 3x
+var xxxHighDPI = 400;	// 4x
 
 // current AI file
 var doc = app.activeDocument;
 
 // check document has been saved
 if (doc.path != "") {
+	var parentFolderPath = doc.path + "/" + "Output"
+	
     // check each directory exists, if not then create
-    var mediumFolderPath = doc.path + "/" + mediumFolderName;
-    var highFolderPath = doc.path + "/" + highFolderName;
-    var xHighFolderPath = doc.path + "/" + xHighFolderName;
-    var xxHighFolderPath = doc.path + "/" + xxHighFolderName;
+    var mediumFolderPath = parentFolderPath + "/" + mediumFolderName;
+    var highFolderPath = parentFolderPath + "/" + highFolderName;
+    var xHighFolderPath = parentFolderPath + "/" + xHighFolderName;
+    var xxHighFolderPath = parentFolderPath + "/" + xxHighFolderName;
+    var xxxHighFolderPath = parentFolderPath + "/" + xxxHighFolderName;  
+    
+    var parentFolderDirectory = new Folder(parentFolderPath);
     
     var mediumFolderDirectory = new Folder(mediumFolderPath);
     var highFolderDirectory = new Folder(highFolderPath);
     var xHighFolderDirectory = new Folder(xHighFolderPath);
     var xxHighFolderDirectory = new Folder(xxHighFolderPath);
+    var xxxHighFolderDirectory = new Folder(xxxHighFolderPath);
 
+    if (!parentFolderDirectory.exists) {
+        var newParentFolder = new Folder(parentFolderPath);
+        newParentFolder.create();
+    }
     if (!mediumFolderDirectory.exists) {
         var newMediumFolder = new Folder(mediumFolderPath);
         newMediumFolder.create();
@@ -49,6 +61,10 @@ if (doc.path != "") {
     if (!xxHighFolderDirectory.exists) {
         var newXXHighFolder = new Folder(xxHighFolderPath);
         newXXHighFolder.create();
+    }
+    if (!xxxHighFolderDirectory.exists) {
+        var newXXXHighFolder = new Folder(xxxHighFolderPath);
+        newXXXHighFolder.create();
     }
 
     // hide all layers
@@ -66,20 +82,24 @@ if (doc.path != "") {
                 doc.layers[i].visible = true;
 
                 var savePath = doc.path;
-                savePath.changePath(mediumFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
+                savePath.changePath("Output/" + mediumFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
                 savePNGtoDisk(savePath, mediumDPI)
                 
                 savePath = doc.path;
-                savePath.changePath(highFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
+                savePath.changePath("Output/" + highFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
                 savePNGtoDisk(savePath, highDPI)
                 
                 savePath = doc.path;
-                savePath.changePath(xHighFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
+                savePath.changePath("Output/" + xHighFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
                 savePNGtoDisk(savePath, xHighDPI)
                 
                 savePath = doc.path;
-                savePath.changePath(xxHighFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
+                savePath.changePath("Output/" + xxHighFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
                 savePNGtoDisk(savePath, xxHighDPI)
+                
+                savePath = doc.path;
+                savePath.changePath("Output/" + xxxHighFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
+                savePNGtoDisk(savePath, xxxHighDPI)
 
                 doc.layers[i].visible = false;
 
