@@ -8,7 +8,7 @@ var mediumFolderName = "drawable-mdpi";
 var highFolderName = "drawable-hdpi";
 var xHighFolderName = "drawable-xhdpi";
 var xxHighFolderName = "drawable-xxhdpi";
-var xxxHighFolderName = "drawable-xxxhpdi";
+var xxxHighFolderName = "drawable-xxxhdpi";
 
 // layers with this special character as the first char will be exported
 var exportLayerWithTag = "$";
